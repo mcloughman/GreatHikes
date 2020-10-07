@@ -1,0 +1,42 @@
+<%- include("partials/header") -%>
+<form action="/birds" method="POST">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="birdName">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="birdName"
+            aria-describedby="emailHelp"
+            placeholder="Bird Species"
+            name="bird[name]";
+          />
+          
+        </div>
+        <div class="form-group">
+          <label for="birdImage">Image</label>
+          <input
+            type="text"
+            class="form-control"
+            id="birdImage"
+            placeholder="Image"
+            name="bird[image]"
+          />
+        </div>
+        <div class="form-group">
+          <textarea class="form-control" name="bird[description]" id="birdDescription" cols="30" rows="10" placeholder="Description" required></textarea>
+          <label class="form-check-label" for="birdDescription"
+            >Description</label
+          >
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+</form>
+
+<%- include("partials/footer") -%>
