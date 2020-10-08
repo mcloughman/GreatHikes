@@ -1,17 +1,21 @@
 <%- include("partials/header") -%>
 <div class="container">
-<div class="row">
-<% for (let bird of birds) { %> 
- 
-    <div class="col-md-3 mr-4 ml-4">
-  <h4 class="text-center"><%= bird.name %></h4>
-  <img style="width: 300px; height: 200px;" src="<%= bird.image %>">
-  <p class="text-center"><%= bird.description %></p>
-  <a href="/birds/<%= bird._id %>" class="btn btn-primary mt-0">Read More</a>
+  <div class="row">
+    <% for (let hike of hikes) { %>
+
+    <div class="col-md-3 mr-4 ml-4 text-center">
+      <div class="card mb-4" style="width: 300px">
+      <img class="card-img-top" style="width: 300px;" src="<%= hike.image[0] %>" />
+      <div class="card-body">
+      <h4 class="card-title"><%= hike.name %></h4>
+      
+      <p class="card-text"><%= hike.description.substring(0, 50) + "... " %><span></span><a href="/hikes/<%= hike._id %>"> Read More</a></span></p>
+      </div>
+      </div>
+    </div>
+
+    <% } %>
   </div>
-  
-<% } %>
-</div>
 </div>
 
 <%- include("partials/footer") -%>

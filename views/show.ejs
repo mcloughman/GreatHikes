@@ -1,9 +1,51 @@
 <%- include("partials/header") -%>
-<div class="container">
-  <div class="jumbotron mx-auto text-center" style="width: 80%" ;>
-    <h1 class="text-center"><%= bird.name %></h1>
-    <img class="text-center" src="<%= bird.image %>" />
+<div class="container text-center">
+  <div class="container text-center">
+    <div class="row text-center mb-5">
+      <div class="col-md-4 text-center">
+        <h2 class="text-center"><%= hike.name %></h2>
+      </div>
+      <div class="col-md-8">
+        <p><%= hike.description %></p>
+      </div>
+    </div>
+  </div>  
+  <div class="row text-center mb-5">
+    <div class="col-md-6 mb-5">
+      <img
+        class="photo"
+        style="width: 400px"
+        heigclass="text-center"
+        src="<%= hike.image[0] %>"
+      />
+    </div>
+    <div class="col-md-6 mb-5">
+      <img
+        class="photo"
+        style="width: 400px"
+        heigclass="text-center"
+        src="<%= hike.image[1] %>"
+      />
+    </div>
+    <div class="col-md-6 mb-5">
+      <img
+        class="photo"
+        style="width: 400px"
+        heigclass="text-center"
+        src="<%= hike.image[2] %>"
+      />
+    </div>
+    <div class="col-md-6 mb-5">
+      <img
+        class="photo"
+        style="width: 400px"
+        class="text-center"
+        src="<%= hike.image[3] %>"
+      />
+    </div>
+    
   </div>
+  <textarea  name="" id="" cols="100" rows="10" placeholder="Comments"></textarea>
 </div>
 
 <%- include("partials/footer") -%>

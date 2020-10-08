@@ -1,34 +1,73 @@
 <%- include("partials/header") -%>
-<form action="/birds" method="POST">
+<form action="/hikes" method="POST">
   <div class="container">
     <div class="row">
       <div class="col-md-2"></div>
       <div class="col-md-8">
         <div class="form-group">
-          <label for="birdName">Name</label>
+          <label for="hikeName">Name</label>
           <input
             type="text"
             class="form-control"
-            id="birdName"
+            id="hikeName"
             aria-describedby="emailHelp"
-            placeholder="Bird Species"
-            name="bird[name]";
+            placeholder="Name"
+            name="hike[name]"
+            ;
           />
-          
         </div>
         <div class="form-group">
-          <label for="birdImage">Image</label>
+          <label for="hikeImage">Image 1</label>
           <input
             type="text"
             class="form-control"
-            id="birdImage"
+            id="hikeImage"
             placeholder="Image"
-            name="bird[image]"
+            name="hike[image]"
           />
         </div>
         <div class="form-group">
-          <textarea class="form-control" name="bird[description]" id="birdDescription" cols="30" rows="10" placeholder="Description" required></textarea>
-          <label class="form-check-label" for="birdDescription"
+          <label for="hikeImage">Image 2</label>
+          <input
+            type="text"
+            class="form-control"
+            id="hikeImage1"
+            placeholder="Image"
+            name="hike[image]"
+          />
+        </div>
+        <div class="form-group">
+          <label for="hikeImage">Image 3</label>
+          <input
+            type="text"
+            class="form-control"
+            id="hikeImage2"
+            placeholder="Image"
+            name="hike[image]"
+          />
+        </div>
+        <div class="form-group">
+          <label for="hikeImage">Image 4</label>
+          <input
+            type="text"
+            class="form-control"
+            id="hikeImage3"
+            placeholder="Image"
+            name="hike[image]"
+          />
+        </div>
+
+        <div class="form-group">
+          <textarea
+            class="form-control"
+            name="hike[description]"
+            id="hikeDescription"
+            cols="30"
+            rows="10"
+            placeholder="Description"
+            required
+          ></textarea>
+          <label class="form-check-label" for="hikeDescription"
             >Description</label
           >
         </div>
