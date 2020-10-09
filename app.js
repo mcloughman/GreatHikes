@@ -3,6 +3,9 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const axios = require("axios");
+const Hike = require("./models/hike");
+const Comment = require("./models/comment");
+//const User = require("./models/user");
 
 // APP CONFIG
 const app = express();
@@ -19,16 +22,6 @@ app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-// MONGOOSE MODEL CONFIG
-var hikeSchema = new mongoose.Schema({
-  name: String,
-  image: [],
-  description: String,
-  created: { type: Date, default: Date.now },
-});
-
-var Hike = mongoose.model("Hike", hikeSchema);
-
 // ROUTES
 // INDEX
 app.get("/", (req, res) => {
@@ -38,7 +31,7 @@ app.get("/", (req, res) => {
 app.get("/hikes", async (req, res) => {
   try {
     let foundHikes = await Hike.find({});
-    res.render("index", { hikes: foundHikes });
+    res.render("hikes/index", { hikes: foundHikes });
   } catch (err) {
     console.log(err);
   }
@@ -46,7 +39,7 @@ app.get("/hikes", async (req, res) => {
 
 // NEW renders a form
 app.get("/hikes/new", (req, res) => {
-  res.render("new");
+  res.render("hikes/new");
 });
 
 // CREATE
@@ -60,17 +53,17 @@ app.post("/hikes", async (req, res) => {
 });
 
 // SHOW
-app.get("/hikes/:id", async (req, res) => {
-  try {
-    let foundHike = await Hike.findById(req.params.id);
-    res.render("show", { hike: foundHike });
-    if (!foundHike) {
-      throw "OOPS! NO HIKE";
-    }
-  } catch (err) {
-    console.log(err);
-    res.redirect("/hikes");
-  }
+app.get("/hikes/:id", function (req, res) {
+  Hike.findById(req.params.id)
+    .populate("comments")
+    .exec(function (err, foundHike) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(foundHike);
+        res.render("hikes/show", { hike: foundHike });
+      }
+    });
 });
 // EDIT
 app.get("/hikes/:id/edit", async (req, res) => {
@@ -85,7 +78,7 @@ app.get("/hikes/:id/edit", async (req, res) => {
     res.redirect("/hikes");
   }
 });
-// Update
+// UPDATE
 app.put("/hikes/:id", async (req, res) => {
   try {
     let updatedHike = await Hike.findByIdAndUpdate(
@@ -101,6 +94,41 @@ app.put("/hikes/:id", async (req, res) => {
     res.redirect("/hikes");
   }
 });
+
+//************************
+// COMMENT ROUTES
+//************************
+app.get("/hikes/:id/comments/new", async (req, res) => {
+  try {
+    let foundHike = await Hike.findById(req.params.id);
+    res.render("comments/new", { hike: foundHike });
+    if (!foundHike) {
+      throw "Can't Find Hike";
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.post("/hikes/:id/comments", (req, res) => {
+  Hike.findById(req.params.id, (err, foundHike) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/hikes");
+    } else {
+      Comment.create(req.body.comment, (err, comment) => {
+        if (err) {
+          console.log(err);
+        } else {
+          foundHike.comments.push(comment);
+          foundHike.save();
+          res.redirect("/hikes/" + foundHike._id);
+        }
+      });
+    }
+  });
+});
+
 app.listen(3000, () => {
   console.log("Server Running on Port 3000");
 });

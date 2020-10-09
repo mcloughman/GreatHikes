@@ -1,4 +1,4 @@
-<%- include("partials/header") -%>
+<%- include("../partials/header") -%>
 <div class="container text-center">
   <div class="container text-center">
     <div class="row text-center mb-5">
@@ -9,7 +9,7 @@
         <p><%= hike.description %></p>
       </div>
     </div>
-  </div>  
+  </div>
   <div class="row text-center mb-5">
     <div class="col-md-6 mb-5">
       <img
@@ -43,9 +43,19 @@
         src="<%= hike.image[3] %>"
       />
     </div>
-    
   </div>
-  <textarea  name="" id="" cols="100" rows="10" placeholder="Comments"></textarea>
+  <div>
+    <% for (let comment of hike.comments) { %>
+    <p><strong><%= comment.author %></strong> - <%= comment.text %></p>
+    <% } %>
+  </div>
+  <textarea
+    name=""
+    id=""
+    cols="100"
+    rows="10"
+    placeholder="Comments"
+  ></textarea>
 </div>
 
-<%- include("partials/footer") -%>
+<%- include("../partials/footer") -%>

@@ -4,5 +4,7 @@ body {
   background-color: lightblue;
 }
 
-
+#textInput {
+  text-align: center;
+}
 
