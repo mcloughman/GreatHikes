@@ -44,18 +44,17 @@
       />
     </div>
   </div>
-  <div>
+  <p>
+    <a class="btn btn-success" href="/hikes/<%= hike._id %>/comments/new"
+      >Add Comment</a
+    >
+  </p>
+  <div class="well">
     <% for (let comment of hike.comments) { %>
-    <p><strong><%= comment.author %></strong> - <%= comment.text %></p>
+    <p><strong><%= comment.author %></strong> - <%= comment.text %>
+    <span class="float-right">10 days ago</span></p>
     <% } %>
   </div>
-  <textarea
-    name=""
-    id=""
-    cols="100"
-    rows="10"
-    placeholder="Comments"
-  ></textarea>
 </div>
 
 <%- include("../partials/footer") -%>

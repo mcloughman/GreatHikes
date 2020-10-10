@@ -24,6 +24,24 @@
         <a href="/hikes" class="navbar-brand"
           ><i class="fas fa-dove mr-2"></i> Home</a
         >
-        <a href="/hikes/new" class="p-2 bd-highlight">New</a>
+        
+          <ul class="nav justify-content-end">
+            <% if (!currentUser) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register">Sign Up</a>
+            </li>
+         <% } else { %>
+          <li class="nav-item nav-link">Signed in as: <%= currentUser.username %></li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+            <% } %>
+          </ul>
+        
       </nav>
-    
+    </div>
+  </body>
+</html>
