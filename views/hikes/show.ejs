@@ -51,8 +51,10 @@
   </p>
   <div class="well">
     <% for (let comment of hike.comments) { %>
-    <p><strong><%= comment.author %></strong> - <%= comment.text %>
-    <span class="float-right">10 days ago</span></p>
+    <p>
+      <strong><%= comment.author.username %></strong> - <%= comment.text %>
+      <span class="float-right">10 days ago</span>
+    </p>
     <% } %>
   </div>
 </div>
