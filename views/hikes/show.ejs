@@ -48,6 +48,10 @@
     <a class="btn btn-success" href="/hikes/<%= hike._id %>/comments/new"
       >Add Comment</a
     >
+    
+    <form action="/hikes/<%= hike._id %>?_method=DELETE" method="POST">
+      
+    </form>
   </p>
   <div class="well">
     <% for (let comment of hike.comments) { %>
@@ -55,6 +59,15 @@
       <strong><%= comment.author.username %></strong> - <%= comment.text %>
       <span class="float-right">10 days ago</span>
     </p>
+    <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+    <a class="btn btn-sm btn-warning" id="editComment"
+    href="/hikes/<%= hike._id %>/comments/<%= comment._id %>/edit">
+    Edit Comment</a>
+    <form class="delete" action="/hikes/<%= hike._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+    <input class="btn btn-sm btn-danger float-right" value="Delete" type="submit">
+    </form>
+    <% } %>
+    <hr>
     <% } %>
   </div>
 </div>

@@ -1,23 +1,25 @@
 <%- include("../partials/header") -%>
-<form action="/hikes/<%= hike._id %>/comments" method="POST">
+<form
+  action="/hikes/<%= hike_id %>/comments/<%= comment._id %>?_method=PUT"
+  method="POST"
+>
   <div class="container">
     <div class="row">
       <div class="col-md-2"></div>
       <div class="col-md-8">
         <div class="form-group">
-          <h3>New Comments For: <%= hike.name %></h3>
+          <h3>Edit Comment</h3>
 
           <div class="form-group">
             <textarea
             type="text"
               class="form-control"
               name="comment[text]"
-              id="hikeDescription"
               cols="30"
               rows="5"
-              placeholder="Comments"
-              required
-            ></textarea>
+              
+             
+            ><%= comment.text %></textarea>
           </div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

@@ -16,3 +16,26 @@ body {
 li.nav-link {
   color: #007bff;
 }
+
+
+.block {
+  display: block;
+  margin: auto;
+}
+.login-register {
+  max-width: 400px;
+  margin: auto;
+}
+
+.delete {
+  display: inline;
+}
+
+#editComment {
+  
+  opacity: 0.8;
+}
+
+#index {
+  margin-left: 6.5%;
+}

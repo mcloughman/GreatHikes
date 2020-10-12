@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 const Hike = require("../models/hike");
 const Comment = require("../models/comment");
+const middleware = require("../middleware");
 
 // comments new
-router.get("/new", isLoggedIn, async (req, res) => {
+router.get("/new", middleware.isLoggedIn, async (req, res) => {
   try {
     let foundHike = await Hike.findById(req.params.id);
     res.render("comments/new", { hike: foundHike });
@@ -17,7 +18,7 @@ router.get("/new", isLoggedIn, async (req, res) => {
 });
 
 // comments create
-router.post("/", isLoggedIn, (req, res) => {
+router.post("/", middleware.isLoggedIn, (req, res) => {
   Hike.findById(req.params.id, (err, foundHike) => {
     if (err) {
       console.log(err);
@@ -27,9 +28,9 @@ router.post("/", isLoggedIn, (req, res) => {
         if (err) {
           console.log(err);
         } else {
-         comment.author.id = req.user._id;
-         comment.author.username = req.user.username;
-         comment.save();
+          comment.author.id = req.user._id;
+          comment.author.username = req.user.username;
+          comment.save();
           foundHike.comments.push(comment);
           foundHike.save();
           res.redirect("/hikes/" + foundHike._id);
@@ -39,12 +40,63 @@ router.post("/", isLoggedIn, (req, res) => {
   });
 });
 
-// middleware
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
+// COMMENT EDIT
+router.get(
+  "/:comment_id/edit",
+  middleware.checkCommentOwnership,
+  async (req, res) => {
+    let foundComment = await Comment.findById(req.params.comment_id);
+    console.log(foundComment);
+    if (!foundComment) {
+      console.log("Fuck This");
+    } else {
+      res.render("comments/edit", {
+        hike_id: req.params.id,
+        comment: foundComment,
+      });
+    }
   }
-  res.redirect("/login");
-}
+);
+
+router.put(
+  "/:comment_id",
+  middleware.checkCommentOwnership,
+  async (req, res) => {
+    try {
+      let updatedComment = await Comment.findByIdAndUpdate(
+        req.params.comment_id,
+        req.body.comment
+      );
+      if (!updatedComment) {
+        console.log("FUCK");
+      } else {
+        res.redirect("/hikes/" + req.params.id);
+      }
+    } catch (err) {
+      console.log(err);
+      res.redirect("/hikes");
+    }
+  }
+);
+
+router.delete(
+  "/:comment_id",
+  middleware.checkCommentOwnership,
+  async (req, res) => {
+    try {
+      let foundComment = await Comment.findByIdAndDelete(req.params.comment_id);
+      if (!foundComment) {
+        throw "Something Went Wrong!";
+        res.redirect("back");
+      } else {
+        res.redirect("/hikes" + req.params.id);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
+
+
 
 module.exports = router;

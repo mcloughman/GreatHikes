@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Hike = require("../models/hike");
+const middleware = require("../middleware");
 
 router.get("/", async (req, res) => {
   try {
@@ -42,7 +43,7 @@ router.get("/:id", function (req, res) {
 router.get("/:id/edit", async (req, res) => {
   try {
     let foundHike = await Hike.findById(req.params.id);
-    res.render("edit", { hike: foundHike });
+    res.render("hikes/edit", { hike: foundHike });
     if (!foundHike) {
       throw "Something Went WRONG!";
     }
@@ -58,20 +59,30 @@ router.put("/:id", async (req, res) => {
       req.params.id,
       req.body.hike
     );
-    res.redirect("/" + req.params.id);
+    console.log(updatedHike);
+    res.redirect("/hikes/" + req.params.id);
     if (!updatedHike) {
       throw "Failed to Update Hike";
     }
   } catch (e) {
     console.log(e);
-    res.redirect("/");
+    res.redirect("/hikes");
   }
 });
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
+// DESTROY
+router.delete("/:id", async (req, res) => {
+  try {
+    let destroyedHike = await Hike.findByIdAndDelete(req.params.id);
+
+    if (!destroyedHike) {
+      throw "Oh No! Failed to delete Hike";
+    } else {
+      res.redirect("/hikes");
+    }
+  } catch (err) {
+    console.log(err);
+    res.redirect("/hikes");
   }
-  res.redirect("/login");
-}
+});
 
 module.exports = router;
