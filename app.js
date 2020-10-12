@@ -31,6 +31,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.use(methodOverride("_method"));
 app.use(flash());
+app.locals.moment = require("moment");
 
 // PASSPORT INITIALIZATION
 app.use(
