@@ -19,18 +19,17 @@ router.get("/register", (req, res) => {
 // handle sign up logic
 router.post("/register", async (req, res) => {
   let newUser = new User({ username: req.body.username });
-  try {
-    await User.register(newUser, req.body.password);
-    if (!newUser) {
-      throw "ERROR!";
-      return res.render("register");
+  User.register(newUser, req.body.password, (err, user) => {
+    if (err) {
+      console.log(err);
+      req.flash("error", err.message);
+      return res.redirect("/register");
     }
     passport.authenticate("local")(req, res, function () {
+      req.flash("success", "Welcome to Great Hikes " + user.username);
       res.redirect("/hikes");
     });
-  } catch (err) {
-    console.log(err);
-  }
+  });
 });
 
 // login form
@@ -51,6 +50,7 @@ router.post(
 // logout
 router.get("/logout", (req, res) => {
   req.logout();
+  req.flash("success", "Logged Out");
   res.redirect("/hikes");
 });
 

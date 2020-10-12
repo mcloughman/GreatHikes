@@ -56,7 +56,7 @@
   <div class="well">
     <% for (let comment of hike.comments) { %>
     <p>
-      <strong><%= comment.author.username %></strong> - <%= comment.text %>
+      <em><%= comment.author.username %></em> -- <%= comment.text %>
       <span class="float-right">10 days ago</span>
     </p>
     <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>

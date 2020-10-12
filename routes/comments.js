@@ -21,18 +21,20 @@ router.get("/new", middleware.isLoggedIn, async (req, res) => {
 router.post("/", middleware.isLoggedIn, (req, res) => {
   Hike.findById(req.params.id, (err, foundHike) => {
     if (err) {
-      console.log(err);
+      req.flash("error", "Hike Not Found");
       res.redirect("/hikes");
     } else {
       Comment.create(req.body.comment, (err, comment) => {
         if (err) {
-          console.log(err);
+          req.flash("error", "Something Went Wrong");
+          res.redirect("back")
         } else {
           comment.author.id = req.user._id;
           comment.author.username = req.user.username;
           comment.save();
           foundHike.comments.push(comment);
           foundHike.save();
+          req.flash("success", "Comment Added")
           res.redirect("/hikes/" + foundHike._id);
         }
       });
@@ -68,8 +70,10 @@ router.put(
         req.body.comment
       );
       if (!updatedComment) {
-        console.log("FUCK");
+        req.flash("error", "Something Went Wrong");
+        res.redirect("back")
       } else {
+        req.flash("success", "Comment Updated");
         res.redirect("/hikes/" + req.params.id);
       }
     } catch (err) {
@@ -86,9 +90,10 @@ router.delete(
     try {
       let foundComment = await Comment.findByIdAndDelete(req.params.comment_id);
       if (!foundComment) {
-        throw "Something Went Wrong!";
+        req.flash("error", "Oh No! Something Went Wrong")
         res.redirect("back");
       } else {
+        req.flash("success", "Comment Deleted")
         res.redirect("/hikes" + req.params.id);
       }
     } catch (err) {
