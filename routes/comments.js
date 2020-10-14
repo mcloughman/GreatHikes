@@ -27,14 +27,14 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
       Comment.create(req.body.comment, (err, comment) => {
         if (err) {
           req.flash("error", "Something Went Wrong");
-          res.redirect("back")
+          res.redirect("back");
         } else {
           comment.author.id = req.user._id;
           comment.author.username = req.user.username;
           comment.save();
           foundHike.comments.push(comment);
           foundHike.save();
-          req.flash("success", "Comment Added")
+          req.flash("success", "Comment Added");
           res.redirect("/hikes/" + foundHike._id);
         }
       });
@@ -71,7 +71,7 @@ router.put(
       );
       if (!updatedComment) {
         req.flash("error", "Something Went Wrong");
-        res.redirect("back")
+        res.redirect("back");
       } else {
         req.flash("success", "Comment Updated");
         res.redirect("/hikes/" + req.params.id);
@@ -83,25 +83,15 @@ router.put(
   }
 );
 
-router.delete(
-  "/:comment_id",
-  middleware.checkCommentOwnership,
-  async (req, res) => {
-    try {
-      let foundComment = await Comment.findByIdAndDelete(req.params.comment_id);
-      if (!foundComment) {
-        req.flash("error", "Oh No! Something Went Wrong")
-        res.redirect("back");
-      } else {
-        req.flash("success", "Comment Deleted")
-        res.redirect("/hikes" + req.params.id);
-      }
-    } catch (err) {
-      console.log(err);
+router.delete("/:comment_id", middleware.checkCommentOwnership, (req, res) => {
+  Comment.findByIdAndDelete(req.params.comment_id, (err) => {
+    if (err) {
+      res.redirect("back");
+    } else {
+      req.flash("success", "Comment deleted");
+      res.redirect("/hikes/" + req.params.id);
     }
-  }
-);
-
-
+  });
+});
 
 module.exports = router;

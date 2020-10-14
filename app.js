@@ -18,7 +18,7 @@ const indexRoutes = require("./routes/index");
 // APP CONFIG
 
 mongoose
-  .connect("mongodb://localhost:27017/birdproject", {
+  .connect(process.env.DB_URI || "mongodb://localhost:27017/birdproject", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -56,6 +56,7 @@ app.use(function (req, res, next) {
 app.use(indexRoutes);
 app.use("/hikes", hikeRoutes);
 app.use("/hikes/:id/comments", commentRoutes);
-app.listen(3000, () => {
-  console.log("Server Running on Port 3000");
+process.env.PORT = process.env.PORT ? process.env.PORT : 3000;
+app.listen(process.env.PORT, () => {
+  console.log("Server Running on Port " + process.env.PORT);
 });

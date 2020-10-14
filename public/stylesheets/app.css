@@ -17,7 +17,6 @@ li.nav-link {
   color: #007bff;
 }
 
-
 .block {
   display: block;
   margin: auto;
@@ -32,10 +31,17 @@ li.nav-link {
 }
 
 #editComment {
-  
   opacity: 0.8;
 }
 
 #index {
   margin-left: 6.6%;
+}
+
+#show > div > img.photo {
+  width: 400px;
+}
+
+#show > div > img.photo:hover {
+  width: 450px;
 }
