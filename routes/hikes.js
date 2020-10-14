@@ -13,15 +13,15 @@ router.get("/", async (req, res) => {
 });
 
 // NEW renders a form
-router.get("/new", (req, res) => {
+router.get("/new", middleware.isLoggedIn, middleware.isAdmin, (req, res) => {
   res.render("hikes/new");
 });
 
 // CREATE
-router.post("/", async (req, res) => {
+router.post("/", middleware.isLoggedIn, middleware.isAdmin, async (req, res) => {
   try {
     let newHike = await Hike.create(req.body.hike);
-    res.redirect("/");
+    res.redirect("/hikes");
   } catch (err) {
     console.log(err);
   }
@@ -40,7 +40,7 @@ router.get("/:id", function (req, res) {
     });
 });
 // EDIT
-router.get("/:id/edit", async (req, res) => {
+router.get("/:id/edit", middleware.isLoggedIn, middleware.isAdmin, async (req, res) => {
   try {
     let foundHike = await Hike.findById(req.params.id);
     res.render("hikes/edit", { hike: foundHike });
@@ -53,13 +53,13 @@ router.get("/:id/edit", async (req, res) => {
   }
 });
 // UPDATE
-router.put("/:id", async (req, res) => {
+router.put("/:id", middleware.isLoggedIn, middleware.isAdmin, async (req, res) => {
   try {
     let updatedHike = await Hike.findByIdAndUpdate(
       req.params.id,
       req.body.hike
     );
-    console.log(updatedHike);
+
     res.redirect("/hikes/" + req.params.id);
     if (!updatedHike) {
       throw "Failed to Update Hike";
@@ -70,7 +70,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 // DESTROY
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", middleware.isLoggedIn, middleware.isAdmin, async (req, res) => {
   try {
     let destroyedHike = await Hike.findByIdAndDelete(req.params.id);
 

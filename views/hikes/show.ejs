@@ -10,11 +10,10 @@
       </div>
     </div>
   </div>
-  <div class="row text-center mb-5">
+  <div class="row text-center mb-5" id="show">
     <div class="col-md-6 mb-5">
       <img
         class="photo"
-        style="width: 400px"
         heigclass="text-center"
         src="<%= hike.image[0] %>"
       />
@@ -22,7 +21,6 @@
     <div class="col-md-6 mb-5">
       <img
         class="photo"
-        style="width: 400px"
         heigclass="text-center"
         src="<%= hike.image[1] %>"
       />
@@ -30,7 +28,6 @@
     <div class="col-md-6 mb-5">
       <img
         class="photo"
-        style="width: 400px"
         heigclass="text-center"
         src="<%= hike.image[2] %>"
       />
@@ -38,11 +35,18 @@
     <div class="col-md-6 mb-5">
       <img
         class="photo"
-        style="width: 400px"
         class="text-center"
         src="<%= hike.image[3] %>"
       />
     </div>
+    <% if(currentUser && currentUser.isAdmin) { %>
+    <div class="col-md-12">
+      <a href="/hikes/<%= hike.id %>/edit" class="btn btn-sm btn-warning">Edit</a>
+      <form action="/hikes/<%= hike.id %>?_method=DELETE" method="POST" class="d-inline">
+        <button class="btn btn-sm btn-danger">Delete</button>
+      </form>
+    </div>
+    <% } %>
   </div>
   <p>
     <a class="btn btn-success" href="/hikes/<%= hike._id %>/comments/new"
