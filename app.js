@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -36,7 +37,7 @@ app.locals.moment = require("moment");
 // PASSPORT INITIALIZATION
 app.use(
   require("express-session")({
-    secret: "the speed of michael grabner",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
   })
