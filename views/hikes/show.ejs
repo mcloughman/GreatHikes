@@ -59,17 +59,24 @@
   </p>
   <div class="well">
     <% for (let comment of hike.comments) { %>
-    <p>
-      <em><%= comment.author.username %></em> -- <%= comment.text %>
-      <span class="float-right"><%= moment(comment.createdAt).fromNow() %></span>
-    </p>
+      <em><%= comment.author.username %></em>
+      <% if (comment.hikeRating > 1) { %>
+      <span class="mt-1 rating float-right font-weight-bold">Rating: <%= comment.hikeRating %>/5</span>
+      <% } %>
+      <p>
+       -- <%= comment.text %>
+      <span class="mt-1 rating float-right"><%= moment(comment.createdAt).fromNow() %></span>
+      </p>
+    
     <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
     <a class="btn btn-sm btn-warning" id="editComment"
     href="/hikes/<%= hike._id %>/comments/<%= comment._id %>/edit">
     Edit Comment</a>
     <form class="delete" action="/hikes/<%= hike._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-    <input class="btn btn-sm btn-danger float-  right" value="Delete" type="submit">
+    <input id="deleteComment" class="btn btn-sm btn-danger" value="Delete" type="submit">
+    
     </form>
+    
     <% } %>
     <hr>
     <% } %>

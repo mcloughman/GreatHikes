@@ -20,6 +20,10 @@
               
              
             ><%= comment.text %></textarea>
+            <label class="form-group" for="rating">Rating
+              <input scroll="no" type="number" name="comment[hikeRating]" id="rating" min="1" max="5" step=".5"
+                value="<%= comment.hikeRating %>" class="form-control" />
+            </label>
           </div>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

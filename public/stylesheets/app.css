@@ -26,10 +26,6 @@ li.nav-link {
   margin: auto;
 }
 
-.delete {
-  display: inline;
-}
-
 #editComment {
   opacity: 0.8;
 }
@@ -44,4 +40,14 @@ li.nav-link {
 
 #show > div > img.photo:hover {
   width: 480px;
+}
+
+.rating {
+  font-size: 0.8em;
+  color: maroon;
+}
+
+.delete {
+  display: inline;
+  
 }
